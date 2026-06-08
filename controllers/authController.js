@@ -108,7 +108,15 @@ async function googleCallback(req, res, next) {
 
     // If this was an OAuth redirect, return HTML to postMessage back to opener (useful for popup flows)
     if (req.query && req.query.state === 'popup') {
-      const payload = { success: true, token, user: { id: user.id, username: user.username, email: user.email, displayName: user.display_name, picture: user.profile_picture } };
+      const payload = {
+        source: 'google-oauth',
+        success: true,
+        token,
+        username: user.username,
+        displayName: user.display_name,
+        picture: user.profile_picture,
+        email: user.email
+      };
       const safe = JSON.stringify(payload).replace(/</g, '\\u003c');
       return res.send(`<!DOCTYPE html><html><body><script>if(window.opener){window.opener.postMessage(${safe}, location.origin);}window.close();</script></body></html>`);
     }
