@@ -44,8 +44,8 @@
    - ใส่ลิงก์สำหรับรันเครื่องตัวเอง (Localhost): `http://localhost:5000`
    - หาก Deploy ขึ้นเซิร์ฟเวอร์จริง ให้เพิ่มลิงก์ต้นทางของเซิร์ฟเวอร์นั้นด้วย (เช่น `https://rshop.net` หรือ `https://rshop-marketplace.onrender.com`)
 6. ตั้งค่าหัวข้อ **Authorized redirect URIs**:
-   - ใส่ `http://localhost:5000/auth/google/callback`
-   - หาก Deploy ขึ้นเซิร์ฟเวอร์จริง ให้เพิ่ม redirect URI ของโดเมนจริง เช่น `https://rshop.net/auth/google/callback` หรือ `https://rshop-marketplace.onrender.com/auth/google/callback`
+   - ใส่ `http://localhost:5000/api/auth/google/callback`
+   - หาก Deploy ขึ้นเซิร์ฟเวอร์จริง ให้เพิ่ม redirect URI ของโดเมนจริง เช่น `https://rshop.net/api/auth/google/callback` หรือ `https://rshop-marketplace.onrender.com/api/auth/google/callback`
 7. คลิกปุ่ม **"Create"**
 8. ระบบจะแสดงหน้าต่าง **"OAuth client created"**:
    - **Copy ค่า Client ID** (เช่น `xxxxxx-xxxxxx.apps.googleusercontent.com`)

@@ -61,7 +61,8 @@ async function googleAuthUrl(req, res, next) {
     const url = oauth2Client.generateAuthUrl({
       access_type: 'offline',
       scope: ['openid', 'profile', 'email'],
-      prompt: 'consent'
+      prompt: 'consent',
+      state: req.query.redirect || undefined
     });
     res.redirect(url);
   } catch (err) { next(err); }
@@ -92,12 +93,12 @@ async function googleCallback(req, res, next) {
       let base = emailPrefix || `google_${googleId.substring(0,8)}`;
       let finalUsername = base;
       let counter = 1;
-      while (true) {
-        const check = await db.query('SELECT id FROM users WHERE LOWER(username)=LOWER($1)', [finalUsername]);
-        if (!check.rows[0]) break;
-        finalUsername = `${base}${counter}`;
-        counter++;
-      }
+        while (true) {
+          const check = await authService.findUserByUsername(finalUsername);
+          if (!check) break;
+          finalUsername = `${base}${counter}`;
+          counter++;
+        }
       user = await authService.createUserFromGoogle({ username: finalUsername, googleId, email, displayName, picture });
     }
 
@@ -106,7 +107,7 @@ async function googleCallback(req, res, next) {
     const token = jwt.sign({ id: user.id, username: user.username, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
 
     // If this was an OAuth redirect, return HTML to postMessage back to opener (useful for popup flows)
-    if (req.query && req.query.redirect === 'popup') {
+    if (req.query && req.query.state === 'popup') {
       const payload = { success: true, token, user: { id: user.id, username: user.username, email: user.email, displayName: user.display_name, picture: user.profile_picture } };
       const safe = JSON.stringify(payload).replace(/</g, '\\u003c');
       return res.send(`<!DOCTYPE html><html><body><script>if(window.opener){window.opener.postMessage(${safe}, location.origin);}window.close();</script></body></html>`);

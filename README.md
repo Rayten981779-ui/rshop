@@ -49,7 +49,7 @@ When GitHub receives a new push to `main`, Render will deploy the latest version
 
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
-- `GOOGLE_CALLBACK_URL=https://rshop-marketplace.onrender.com/auth/google/callback`
+- `GOOGLE_CALLBACK_URL=https://rshop-marketplace.onrender.com/api/auth/google/callback`
 - `JWT_SECRET`
 - `SESSION_SECRET`
 - `PORT` (optional)
