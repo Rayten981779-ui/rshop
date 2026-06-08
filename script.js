@@ -166,10 +166,10 @@ function handleActionClick(event) {
             navigateTo('customer-page');
             break;
         case 'navigate-login-cust-page':
-            navigateTo('login-cust-page');
+            window.location.href = '/login.html';
             break;
         case 'navigate-register-cust-page':
-            navigateTo('register-cust-page');
+            window.location.href = '/login.html';
             break;
         case 'navigate-forgot-page':
             navigateTo('forgot-page');

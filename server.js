@@ -9,6 +9,7 @@ const upload = require('./upload');
 const db = require('./db');
 
 const errorHandler = require('./middlewares/errorHandler');
+const { rateLimit, loginRateLimit } = require('./middlewares/auth');
 
 const authRoutes = require('./routes/auth');
 const productsRoutes = require('./routes/products');
@@ -46,6 +47,9 @@ app.use(xss());
 app.use(express.static(path.join(__dirname)));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Rate limiting - general (100 requests per 15 minutes)
+app.use(rateLimit(100, 15 * 60 * 1000));
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'fallback_session',
   resave: false,
@@ -53,8 +57,12 @@ app.use(session({
   cookie: { secure: process.env.NODE_ENV === 'production', httpOnly: true }
 }));
 
-// Mount routes
+// Mount routes with specific rate limiting for login
 app.use('/api/auth', authRoutes);
+
+// Add stricter rate limiting to login endpoint
+app.post('/api/auth/login', loginRateLimit(5, 15 * 60 * 1000));
+
 app.use('/api/products', productsRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', ordersRoutes);
@@ -73,7 +81,8 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 app.get('/api/config', (req, res) => {
   res.json({
     googleConfigured: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_CALLBACK_URL),
-    callbackUrl: process.env.GOOGLE_CALLBACK_URL || null
+    callbackUrl: process.env.GOOGLE_CALLBACK_URL || null,
+    enableTwoFA: process.env.ENABLE_2FA === 'true'
   });
 });
 
@@ -88,6 +97,9 @@ app.get('*', (req, res, next) => {
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+  console.log(`🚀 Server listening on port ${PORT}`);
+  console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🔐 Google OAuth: ${process.env.GOOGLE_CLIENT_ID ? 'Configured' : 'Not configured'}`);
+  console.log(`🔒 2FA: ${process.env.ENABLE_2FA === 'true' ? 'Enabled' : 'Disabled'}`);
 });
 

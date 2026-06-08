@@ -6,13 +6,18 @@ CREATE TABLE IF NOT EXISTS users (
   username TEXT UNIQUE NOT NULL,
   password_hash TEXT,
   google_id TEXT UNIQUE,
-  email TEXT,
+  email TEXT UNIQUE,
   display_name TEXT,
   profile_picture TEXT,
+  verification_code VARCHAR(6),
+  verification_code_created_at TIMESTAMPTZ,
   status TEXT DEFAULT 'ACTIVE',
   lock_until TIMESTAMPTZ,
+  failed_login_attempts INT DEFAULT 0,
   is_google BOOLEAN DEFAULT false,
-  created_at TIMESTAMPTZ DEFAULT now()
+  password_set BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE TABLE IF NOT EXISTS products (
