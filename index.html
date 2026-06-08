@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="th">
 
@@ -603,4 +604,611 @@
     </footer>
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RShop // Cybernetic Command Marketplace</title>
+    <!-- นำเข้า Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- นำเข้า Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Prompt:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- นำเข้า CryptoJS สำหรับการแฮชรหัสผ่าน -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <!-- นำเข้า Google Identity Services SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Load Application Scripts -->
+    <script src="script.js" defer></script>
+</head>
+
+<body
+    class="bg-[#0a0a0c] text-zinc-100 min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-black">
+
+    <!-- NAVIGATION BAR -->
+    <nav class="bg-[#0f0f12]/90 border-b border-emerald-500/20 sticky top-0 z-40 backdrop-blur-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('customer-page')">
+                <span
+                    class="text-xl font-black font-mono tracking-tighter uppercase border border-emerald-500 text-emerald-400 px-2 py-0.5 bg-emerald-950/50 shadow-[0_0_10px_rgba(16,185,129,0.2)]">R</span>
+                <span class="text-xl font-bold tracking-widest font-display text-white">RSHOP<span
+                        class="text-emerald-400">.net</span></span>
+            </div>
+            <div class="flex items-center space-x-6 text-xs font-bold uppercase tracking-widest font-mono">
+                <button onclick="navigateTo('customer-page')"
+                    class="text-zinc-400 hover:text-emerald-400 transition cursor-pointer">// MATRIX</button>
+                <div class="flex items-center space-x-2">
+                    <button id="btn-lang-th" onclick="setLanguage('th')" class="text-emerald-400 border border-emerald-500 px-3 py-1 rounded-sm uppercase text-[10px]">TH</button>
+                    <button id="btn-lang-en" onclick="setLanguage('en')" class="text-emerald-400 border border-emerald-500 px-3 py-1 rounded-sm uppercase text-[10px]">EN</button>
+                </div>
+
+                <!-- แสดงเมื่อยังไม่ได้ล็อกอิน -->
+                <div id="guest-zone" class="flex items-center space-x-4">
+                    <button onclick="navigateTo('login-cust-page')" data-i18n="signIn"
+                        class="text-zinc-400 hover:text-emerald-400 transition cursor-pointer">SIGN_IN</button>
+                    <button onclick="navigateTo('register-cust-page')" data-i18n="register"
+                        class="border border-emerald-500 text-emerald-400 px-4 py-1.5 bg-emerald-950/30 hover:bg-emerald-500 hover:text-black transition shadow-[0_0_15px_rgba(16,185,129,0.1)] cursor-pointer">REGISTER</button>
+                </div>
+
+                <!-- แสดงเมื่อล็อกอินลูกค้าแล้ว -->
+                <div id="user-zone"
+                    class="hidden-section flex items-center space-x-3 border border-zinc-800 px-2 py-1 bg-zinc-900/50">
+                    <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                    <span id="user-display" class="text-emerald-400 font-medium text-xs lowercase"></span>
+                    <button onclick="viewOrders()" data-i18n="ordersButton"
+                        class="text-zinc-400 hover:text-emerald-400 transition ml-1 text-[10px] cursor-pointer">[ORDERS]</button>
+                    <button onclick="logoutCustomer()"
+                        class="text-red-400 hover:text-red-500 transition ml-1 text-[10px] cursor-pointer">[EXIT]</button>
+                </div>
+
+                <span class="text-zinc-800">|</span>
+                <button onclick="navigateTo('login-page')" data-i18n="devPortal"
+                    class="text-zinc-600 hover:text-zinc-400 transition cursor-pointer">DEV_PORTAL</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. หน้าแรกสำหรับลูกค้า -->
+    <main id="customer-page" class="flex-grow hidden-section">
+        <!-- CYBERPUNK HERO -->
+        <section
+            class="border-b border-emerald-500/10 py-24 px-6 text-center relative bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]">
+            <div class="max-w-3xl mx-auto space-y-6">
+                <span data-i18n="heroTag"
+                    class="text-[10px] bg-emerald-950/80 text-emerald-400 font-mono font-bold px-3 py-1 uppercase tracking-widest border border-emerald-500/30">SECURE
+                    ASSET DEPOT v5.0</span>
+                <h1 id="hero-headline" data-i18n="heroHeadline"
+                    class="text-5xl md:text-7xl font-black tracking-tight text-white uppercase font-display leading-none">
+                    PREMIUM 3D <br><span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-500 drop-shadow-[0_0_20px_rgba(16,185,129,0.3)]">CYBER
+                        STRUCTURES</span>
+                </h1>
+                <p data-i18n="heroSub" class="text-zinc-400 text-sm md:text-base max-w-md mx-auto font-light leading-relaxed">
+                    ดาวน์โหลดสถาปัตยกรรมระดับพรีเมียมและโมเดลยานยนต์ ผ่านระบบจำลองธุรกรรมกสิกรไทยความปลอดภัยสูง
+                </p>
+            </div>
+        </section>
+
+        <!-- โซนสินค้าและฟิลเตอร์ -->
+        <div class="container mx-auto px-6 py-16">
+            <div class="flex justify-center space-x-3 mb-16 border-b border-zinc-900 pb-6 font-mono">
+                <button onclick="filterCategory('ALL')" id="btn-cat-all" data-i18n="allAssets"
+                    class="px-5 py-2 text-xs font-bold border border-emerald-500 bg-emerald-500 text-black transition cursor-pointer">ALL_ASSETS</button>
+                <button onclick="filterCategory('HOME')" id="btn-cat-home" data-i18n="architecture"
+                    class="px-5 py-2 text-xs font-bold border border-transparent text-zinc-500 hover:text-emerald-400 transition cursor-pointer">ARCHITECTURE</button>
+                <button onclick="filterCategory('CAR')" id="btn-cat-car" data-i18n="vehicles"
+                    class="px-5 py-2 text-xs font-bold border border-transparent text-zinc-500 hover:text-emerald-400 transition cursor-pointer">VEHICLES</button>
+                <button onclick="filterCategory('OTHER')" id="btn-cat-other" data-i18n="others"
+                    class="px-5 py-2 text-xs font-bold border border-transparent text-zinc-500 hover:text-emerald-400 transition cursor-pointer">OTHERS</button>
+            </div>
+
+            <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            </div>
+        </div>
+    </main>
+
+    <!-- 2. หน้าสมัครสมาชิกของลูกค้า -->
+    <section id="register-cust-page" class="hidden-section flex-grow flex items-center justify-center px-6 py-20">
+        <div class="bg-[#0f0f12] border border-zinc-800 p-8 w-full max-w-md relative">
+            <div
+                class="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent">
+            </div>
+            <h2 data-i18n="createAccount" class="text-xl font-bold text-white mb-1 uppercase tracking-wider font-display">CREATE_ACCOUNT</h2>
+            <p data-i18n="createAccountDesc" class="text-xs text-zinc-500 mb-8 font-mono">กำหนดชื่อผู้ใช้และรหัสผ่านสำหรับเข้าถึงระบบข้อมูลเครือข่าย
+            </p>
+            <div class="space-y-5">
+                <div>
+                    <label data-i18n="userName" class="block text-[10px] font-mono uppercase text-zinc-400 mb-1.5">USER_NAME</label>
+                    <input type="text" id="reg-username" placeholder="cyber_warrior"
+                        class="w-full bg-zinc-900/50 border border-zinc-800 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 font-mono transition">
+                </div>
+                <div>
+                    <label data-i18n="passwordLabel" class="block text-[10px] font-mono uppercase text-zinc-400 mb-1.5">ACCESS_PASSWORD</label>
+                    <input type="password" id="reg-pass" placeholder="••••••••"
+                        class="w-full bg-zinc-900/50 border border-zinc-800 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 font-mono transition">
+                </div>
+                <button onclick="registerCustomer()" data-i18n="initializeAccount"
+                    class="w-full bg-emerald-500 text-black text-xs font-bold py-4 uppercase tracking-widest font-mono hover:bg-emerald-400 transition cursor-pointer">INITIALIZE
+                    ACCOUNT</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. หน้าล็อกอินของลูกค้า -->
+    <section id="login-cust-page" class="hidden-section flex-grow flex items-center justify-center px-6 py-20">
+        <div class="bg-[#0f0f12] border border-zinc-800 p-8 w-full max-w-md relative">
+            <div
+                class="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent">
+            </div>
+            <h2 data-i18n="userAuth" class="text-xl font-bold text-white mb-6 uppercase tracking-wider font-display">USER_AUTH</h2>
+            <div class="space-y-5">
+                <div>
+                    <label data-i18n="userName" class="block text-[10px] font-mono uppercase text-zinc-400 mb-1.5">USERNAME</label>
+                    <input type="text" id="login-username" placeholder="cyber_warrior"
+                        class="w-full bg-zinc-900/50 border border-zinc-800 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 font-mono transition">
+                </div>
+                <div>
+                    <label data-i18n="passwordLabel" class="block text-[10px] font-mono uppercase text-zinc-400 mb-1.5">PASSWORD</label>
+                    <input type="password" id="login-pass" placeholder="••••••••"
+                        class="w-full bg-zinc-900/50 border border-zinc-800 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 font-mono transition">
+                </div>
+                <div class="text-right">
+                    <button onclick="navigateTo('forgot-page')" data-i18n="forgotPassword"
+                        class="text-xs text-zinc-500 hover:text-emerald-400 font-mono transition cursor-pointer">[
+                        FORGOT_PASSWORD? ]</button>
+                </div>
+                <button onclick="loginCustomer()" data-i18n="establishConnection"
+                    class="w-full bg-emerald-500 text-black text-xs font-bold py-4 uppercase tracking-widest font-mono hover:bg-emerald-400 transition cursor-pointer">ESTABLISH
+                    CONNECTION</button>
+
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-zinc-800"></div>
+                    <span class="flex-shrink mx-4 text-zinc-500 text-[10px] font-mono uppercase">OR</span>
+                    <div class="flex-grow border-t border-zinc-800"></div>
+                </div>
+
+                <!-- Google Sign-In Button -->
+                <button onclick="startGoogleLogin()"
+                    class="w-full border border-red-500/30 text-red-400 text-xs font-bold py-3.5 uppercase tracking-widest font-mono hover:bg-red-950/20 hover:border-red-500 transition cursor-pointer flex items-center justify-center space-x-2">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                        <path
+                            d="M12.24 10.285V13.4h6.887C18.2 15.614 15.645 18 12.24 18c-3.86 0-7-3.14-7-7s3.14-7 7-7c1.7 0 3.3.65 4.5 1.8l2.4-2.4C17.3 1.7 14.9 1 12.24 1 6.58 1 2 5.58 2 11.24s4.58 10.24 10.24 10.24c5.795 0 10.24-4.11 10.24-10.24 0-.648-.078-1.277-.195-1.855H12.24z" />
+                    </svg>
+                    <span data-i18n="logInWithGoogle">LOG_IN WITH GOOGLE</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. หน้าขอเปลี่ยนรหัสผ่านเมื่อลืม -->
+    <section id="forgot-page" class="hidden-section flex-grow flex items-center justify-center px-6 py-20">
+        <div class="bg-[#0f0f12] border border-zinc-800 p-8 w-full max-w-md">
+            <h2 data-i18n="recoveryMode" class="text-xl font-bold text-white mb-2 uppercase tracking-wider font-display">RECOVERY_MODE</h2>
+            <p class="text-xs text-zinc-500 mb-6 font-mono">กรอกชื่อผู้ใช้ที่ลงทะเบียนเพื่อตั้งรหัสผ่านใหม่ (ระบบจำลอง)
+            </p>
+            <div class="space-y-5">
+                <div>
+                    <label data-i18n="registeredUsername"
+                        class="block text-[10px] font-mono uppercase text-zinc-400 mb-1.5">REGISTERED_USERNAME</label>
+                    <input type="text" id="forgot-username" placeholder="cyber_warrior"
+                        class="w-full bg-zinc-900/50 border border-zinc-800 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 font-mono transition">
+                </div>
+                <button onclick="requestResetPassword()" data-i18n="sendRecoveryLink"
+                    class="w-full bg-zinc-800 text-white text-xs font-bold py-4 uppercase tracking-widest font-mono hover:bg-zinc-700 transition cursor-pointer">SEND
+                    RECOVERY LINK</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. หน้าเปลี่ยนรหัสผ่านแยกเดี่ยว -->
+    <section id="reset-password-page" class="hidden-section flex-grow flex items-center justify-center px-6 py-20">
+        <div
+            class="bg-[#0f0f12] border-2 border-emerald-500 p-8 w-full max-w-md shadow-[0_0_30px_rgba(16,185,129,0.1)]">
+            <span
+                class="text-[9px] bg-emerald-500 text-black font-mono px-2 py-0.5 uppercase tracking-widest font-bold">OVERRIDE
+                GATEWAY</span>
+            <h2 data-i18n="resetPassword" class="text-xl font-bold text-white mt-3 mb-1 uppercase tracking-wider font-display">RESET PASSWORD</h2>
+            <p id="reset-target-display" class="text-xs font-mono text-emerald-400 mb-6"></p>
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-[10px] font-mono uppercase text-zinc-400 mb-1.5">NEW_SECRET_KEY</label>
+                    <input type="password" id="reset-new-pass" placeholder="••••••••"
+                        class="w-full bg-zinc-900 border border-zinc-800 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 font-mono transition">
+                </div>
+                <button onclick="executeResetPassword()"
+                    class="w-full bg-emerald-500 text-black text-xs font-bold py-4 uppercase tracking-widest font-mono hover:bg-emerald-400 transition cursor-pointer">COMMIT
+                    ALTERATION</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. หน้าล็อกอินผู้พัฒนา -->
+    <section id="login-page" class="hidden-section flex-grow flex items-center justify-center px-6 py-20">
+        <div class="bg-[#0f0f12] border border-zinc-800 p-8 w-full max-w-md text-center">
+            <h2 class="text-xl font-bold text-white mb-6 uppercase tracking-wider font-display">// DEV_PORTAL_AUTH</h2>
+            <div class="space-y-5 text-left">
+                <div>
+                    <label data-i18n="enterMasterKey" class="block text-[10px] font-mono uppercase text-zinc-500 mb-1.5">ENTER MASTER KEY (DEFAULT:
+                        1234)</label>
+                    <input type="password" id="dev-password" placeholder="••••"
+                        class="w-full bg-zinc-900 border border-zinc-800 px-4 py-3 text-sm text-emerald-400 outline-none focus:border-emerald-500 font-mono tracking-widest text-center">
+                </div>
+                <button onclick="loginDev()" data-i18n="accessMainframe"
+                    class="w-full bg-zinc-100 text-black text-xs font-bold py-4 uppercase tracking-widest font-mono hover:bg-zinc-200 transition cursor-pointer">ACCESS
+                    MAINFRAME</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. หน้าแผงควบคุมผู้พัฒนา (Developer Command Mainframe) -->
+    <section id="dev-page" class="hidden-section flex-grow container mx-auto px-6 py-12">
+        <div class="flex justify-between items-center border-b border-zinc-800 pb-6 mb-10">
+            <div>
+                <h2 class="text-2xl font-black uppercase tracking-wider font-display text-white">CORE_MAINFRAME // <span
+                        class="text-emerald-400">SUPER_ADMIN</span></h2>
+                <p class="text-xs text-zinc-500 font-mono mt-1">Real-time Financial Sync & User Matrix Security Core</p>
+            </div>
+            <button onclick="logoutDev()"
+                class="border border-red-500/50 text-red-400 hover:bg-red-500 hover:text-black px-4 py-2 text-xs font-bold uppercase font-mono tracking-wider transition cursor-pointer">TERMINATE_SESSION</button>
+        </div>
+
+        <!-- แผงรายงานรายได้ทั้งหมด (Financial Overview Node) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 font-mono">
+            <div class="bg-zinc-900/40 border border-emerald-500/30 p-5 relative overflow-hidden">
+                <span class="text-[9px] text-zinc-500 uppercase block tracking-wider">TOTAL_NET_REVENUE</span>
+                <p id="dev-total-revenue" class="text-3xl font-black text-emerald-400 mt-2">฿0.00</p>
+                <div class="absolute -right-4 -bottom-4 text-emerald-500/5 text-6xl font-black font-display">CASH</div>
+            </div>
+            <div class="bg-zinc-900/40 border border-zinc-800 p-5 relative overflow-hidden">
+                <span class="text-[9px] text-zinc-500 uppercase block tracking-wider">SUCCESSFUL_TXS</span>
+                <p id="dev-total-tx" class="text-3xl font-black text-white mt-2">0</p>
+            </div>
+            <div class="bg-zinc-900/40 border border-zinc-800 p-5 relative overflow-hidden">
+                <span class="text-[9px] text-zinc-500 uppercase block tracking-wider">REGISTERED_NODES</span>
+                <p id="dev-total-users" class="text-3xl font-black text-zinc-400 mt-2">0</p>
+            </div>
+        </div>
+
+        <!-- แท็บสลับหน้าบอร์ดแอดมิน เพื่อความสลวยสะอาดตา -->
+        <div class="flex space-x-2 mb-8 font-mono text-xs">
+            <button onclick="switchDevTab('products')" id="dev-tab-products" data-i18n="manageAssets"
+                class="px-5 py-2.5 font-bold border border-emerald-500 bg-emerald-500 text-black cursor-pointer">📦
+                MANAGE_ASSETS</button>
+            <button onclick="switchDevTab('users')" id="dev-tab-users" data-i18n="userSecurity"
+                class="px-5 py-2.5 font-bold border border-zinc-800 text-zinc-400 bg-zinc-900/30 hover:text-emerald-400 cursor-pointer">👥
+                USER_SECURITY_MATRIX</button>
+            <button onclick="switchDevTab('finance')" id="dev-tab-finance" data-i18n="financialLedger"
+                class="px-5 py-2.5 font-bold border border-zinc-800 text-zinc-400 bg-zinc-900/30 hover:text-emerald-400 cursor-pointer">📊
+                FINANCIAL_LEDGER</button>
+            <button onclick="viewAdminOrders()" data-i18n="adminOrderPanel"
+                class="px-5 py-2.5 font-bold border border-zinc-800 text-zinc-400 bg-zinc-900/30 hover:text-blue-400 cursor-pointer">📋
+                ORDER_APPROVALS</button>
+        </div>
+
+        <!-- ส่วนที่ 7.1: จัดการไอเทมสินค้า -->
+        <div id="dev-section-products" class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <!-- ฟอร์มลงขายโมเดล -->
+            <div class="bg-[#0f0f12] border border-zinc-800 p-6 h-fit">
+                <h3
+                    class="text-xs font-bold uppercase font-mono tracking-widest text-emerald-400 mb-5 pb-2 border-b border-zinc-800">
+                    📌 INJECT_NEW_ASSET</h3>
+                <div class="space-y-4 font-mono text-xs">
+                    <div>
+                        <label class="block text-[10px] text-zinc-500 mb-1 uppercase">CATEGORY</label>
+                        <select id="prod-category"
+                            class="w-full bg-zinc-900 border border-zinc-800 px-3 py-2 text-white focus:border-emerald-500 outline-none">
+                            <option value="HOME">ARCHITECTURE (HOME)</option>
+                            <option value="CAR">VEHICLES (CAR)</option>
+                            <option value="OTHER">OTHERS (OTHER)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-zinc-500 mb-1 uppercase">ASSET_NAME</label>
+                        <input type="text" id="prod-title" placeholder="MODERN THAI HOUSE V3"
+                            class="w-full bg-zinc-900 border border-zinc-800 px-3 py-2 text-white focus:border-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-zinc-500 mb-1 uppercase">PRICE (THB)</label>
+                        <input type="number" id="prod-price" placeholder="0.00"
+                            class="w-full bg-zinc-900 border border-zinc-800 px-3 py-2 text-white focus:border-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-zinc-500 mb-1 uppercase">ENCRYPTED_DOWNLOAD_URL</label>
+                        <input type="text" id="prod-download" placeholder="https://drive.google.com/..."
+                            class="w-full bg-zinc-900 border border-zinc-800 px-3 py-2 text-zinc-400 focus:border-emerald-500 outline-none text-[11px]">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-zinc-500 mb-1 uppercase">THUMBNAIL_IMAGE_URL</label>
+                        <input type="text" id="prod-img" placeholder="https://images.unsplash.com/..."
+                            class="w-full bg-zinc-900 border border-zinc-800 px-3 py-2 text-white focus:border-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-zinc-400 mb-1 uppercase text-emerald-400">⏳
+                            K-QR_EXPIRATION_TIMER (SEC)</label>
+                        <input type="number" id="system-timer" value="45"
+                            class="w-full border border-emerald-500/40 bg-emerald-950/20 text-emerald-400 text-center font-bold py-2">
+                    </div>
+                    <button onclick="addProduct()"
+                        class="w-full bg-emerald-500 text-black text-xs font-bold py-3 uppercase tracking-wider font-mono hover:bg-emerald-400 transition cursor-pointer">PUBLISH
+                        TO NETWORK</button>
+                </div>
+            </div>
+
+            <!-- รายการคลังโมเดลในระบบ -->
+            <div class="bg-[#0f0f12] border border-zinc-800 p-6 lg:col-span-2">
+                <h3
+                    class="text-xs font-bold uppercase font-mono tracking-widest text-white mb-5 pb-2 border-b border-zinc-800">
+                    📦 INVENTORY_DATABASE</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono">
+                        <thead>
+                            <tr class="bg-zinc-900/50 border-b border-zinc-800 text-zinc-500 text-[10px]">
+                                <th class="p-3">THUMB</th>
+                                <th class="p-3">IDENTIFIER / CLASS</th>
+                                <th class="p-3">SECRET_ENDPOINT</th>
+                                <th class="p-3 text-right">VALUATION</th>
+                                <th class="p-3 text-center">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dev-products-list" class="divide-y divide-zinc-900"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ส่วนที่ 7.2: คลังข้อมูลผู้ใช้งาน (User Management Matrix) -->
+        <div id="dev-section-users" class="bg-[#0f0f12] border border-zinc-800 p-6 hidden-section shadow-lg">
+            <h3
+                class="text-xs font-bold uppercase font-mono tracking-widest text-emerald-400 mb-6 pb-2 border-b border-zinc-800">
+                👥 USER_IDENTITY_NODE_MATRIX</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs font-mono">
+                    <thead>
+                        <tr class="bg-zinc-900/60 border-b border-zinc-800 text-zinc-500 text-[10px]">
+                            <th class="p-4">USER_NODE_NAME</th>
+                            <th class="p-4">PASSWORD_HASH</th>
+                            <th class="p-4">SECURITY_STATUS</th>
+                            <th class="p-4">SESSION_CART (ของในตะกร้า)</th>
+                            <th class="p-4">OWNED_LICENSES (ซื้อแล้ว)</th>
+                            <th class="p-4 text-center">ADMINISTRATIVE_ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dev-users-list" class="divide-y divide-zinc-900"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ส่วนที่ 7.3: บัญชีแยกประเภทประวัติการจ่ายเงิน (Financial Ledger) -->
+        <div id="dev-section-finance" class="bg-[#0f0f12] border border-zinc-800 p-6 hidden-section shadow-lg">
+            <h3
+                class="text-xs font-bold uppercase font-mono tracking-widest text-teal-400 mb-6 pb-2 border-b border-zinc-800">
+                📊 TRANSACTIONS_LEDGER_LOGS</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs font-mono">
+                    <thead>
+                        <tr class="bg-zinc-900/60 border-b border-zinc-800 text-zinc-500 text-[10px]">
+                            <th class="p-4">TIMESTAMP</th>
+                            <th class="p-4">INBOUND_USER_NODE</th>
+                            <th class="p-4">ACQUIRED_ASSET_NAME</th>
+                            <th class="p-4 text-right">FUNDS_RECEIVED</th>
+                            <th class="p-4 text-center">NETWORK_STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dev-finance-list" class="divide-y divide-zinc-900"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. หน้าจอชำระเงิน K-PromptPay -->
+    <section id="checkout-page"
+        class="hidden-section flex-grow flex items-center justify-center px-6 py-20 bg-zinc-950/40">
+        <div
+            class="bg-[#0f0f12] border-2 border-emerald-500 p-8 w-full max-w-md shadow-[0_0_50px_rgba(16,185,129,0.15)] text-center relative">
+            <div
+                class="flex items-center justify-center space-x-2 text-emerald-400 font-mono text-[9px] font-bold mb-4 tracking-widest">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>[ K-PAYMENT_GATEWAY_SANDBOX ]</span>
+            </div>
+
+            <span class="text-[9px] font-mono uppercase tracking-widest text-zinc-500 block mb-1">Kasikorn Dynamic Core
+                QR</span>
+            <h2 id="checkout-title" class="text-xl font-bold font-display text-white uppercase tracking-wider">TITLE
+            </h2>
+            <p data-i18n="checkoutVerify" class="text-xs text-zinc-400 mt-2 font-mono">สแกน QR Code เพื่อชำระ จากนั้นอัปโหลดสลิป</p>
+
+            <div class="my-6 bg-zinc-900/50 py-4 border-y border-zinc-800">
+                <span class="text-[9px] text-zinc-500 block uppercase font-mono tracking-widest mb-1">TARGET_VAULT:
+                    KBANK_AUTOMATED_NODE</span>
+                <p id="checkout-price"
+                    class="text-4xl font-black text-emerald-400 font-mono drop-shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+                    ฿0.00</p>
+            </div>
+
+            <!-- คิวอาร์โค้ด -->
+            <div class="p-4 inline-block bg-white shadow-md my-2">
+                <img id="qr-image" src="" alt="KBank QR Code" class="w-44 h-44 mx-auto">
+            </div>
+
+            <div class="mt-4 bg-zinc-950 p-3 border border-zinc-800 font-mono">
+                <p class="text-[10px] uppercase text-zinc-500 tracking-wider">GATEWAY_SESSION_TIMEOUT_IN</p>
+                <div id="countdown-timer" class="text-3xl font-black text-red-500 my-0.5">00</div>
+            </div>
+
+            <div class="mt-8 flex space-x-3 font-mono">
+                <button onclick="cancelCheckout()" data-i18n="abort"
+                    class="w-1/3 border border-zinc-800 text-zinc-400 py-3 text-xs font-bold uppercase hover:border-zinc-600 transition cursor-pointer">ABORT</button>
+                <button onclick="simulateKBankCallback()" data-i18n="forcePayment"
+                    class="w-2/3 bg-emerald-500 text-black py-3 text-xs font-bold uppercase hover:bg-emerald-400 transition font-bold shadow-[0_0_15px_rgba(16,185,129,0.2)] cursor-pointer">FORCE_PAYMENT_SUCCESS</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. หน้าดาวน์โหลดไฟล์โมเดลลับ -->
+    <section id="download-page" class="hidden-section flex-grow flex items-center justify-center px-6 py-20">
+        <div class="bg-[#0f0f12] border border-emerald-500 p-8 w-full max-w-lg text-center shadow-2xl">
+            <div
+                class="w-16 h-16 bg-emerald-950/40 border border-emerald-500/30 rounded-none flex items-center justify-center mx-auto mb-6 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                <span class="text-2xl text-emerald-400 font-mono">✓</span>
+            </div>
+            <span
+                class="text-xs font-mono text-emerald-400 font-bold uppercase tracking-widest block mb-1">ACCESS_GRANTED_BY_KBANK</span>
+            <h2 id="download-title" class="text-2xl font-black text-white uppercase font-display tracking-wide">DECRYPT
+                SUCCESS</h2>
+            <p class="text-zinc-500 text-xs mt-2 mb-8 max-w-xs mx-auto font-mono">ลิขสิทธิ์สิทธิ์การดาวน์โหลด 3D Asset
+                ถูกบันทึกเข้าสู่โปรไฟล์บล็อกเชนจำลองของคุณเรียบร้อยแล้ว</p>
+
+            <div class="bg-zinc-900 border border-zinc-800 p-4 mb-8 text-left font-mono">
+                <span class="text-[9px] uppercase text-zinc-500 block mb-0.5 tracking-widest">TRANSACTION_HASH_ID</span>
+                <p id="download-order-id" class="text-xs font-bold text-zinc-300 break-all"></p>
+            </div>
+
+            <a id="download-secure-link" href="#" target="_blank" data-i18n="downloadAsset"
+                class="block w-full bg-emerald-500 text-black font-mono text-xs font-bold py-4 uppercase tracking-widest hover:bg-emerald-400 transition shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                DOWNLOAD_ASSET_PACKAGE
+            </a>
+
+            <button onclick="navigateTo('customer-page')" data-i18n="returnToShowcase"
+                class="mt-6 text-xs font-mono text-zinc-500 hover:text-emerald-400 underline transition cursor-pointer">RETURN_TO_SHOWCASE</button>
+        </div>
+    </section>
+
+    <!-- 9.5 หน้าออเดอร์และการอัปโหลดสลิป -->
+    <section id="orders-page" class="hidden-section flex-grow container mx-auto px-6 py-12">
+        <div class="flex justify-between items-center border-b border-zinc-800 pb-6 mb-10">
+            <h2 class="text-2xl font-black uppercase tracking-wider font-display text-white">MY_ORDERS // <span class="text-emerald-400">TRANSACTION_HISTORY</span></h2>
+            <button onclick="navigateTo('customer-page')" class="border border-zinc-800 text-zinc-400 hover:text-emerald-400 px-4 py-2 text-xs font-bold uppercase font-mono transition cursor-pointer">← BACK</button>
+        </div>
+        
+        <div id="orders-list" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Orders will be rendered here -->
+        </div>
+    </section>
+
+    <!-- 10 หน้าแผงจัดการออเดอร์ของแอดมิน -->
+    <section id="admin-orders-page" class="hidden-section flex-grow container mx-auto px-6 py-12">
+        <div class="flex justify-between items-center border-b border-zinc-800 pb-6 mb-10">
+            <h2 class="text-2xl font-black uppercase tracking-wider font-display text-white">ADMIN_ORDER_CENTER // <span class="text-emerald-400">PENDING_APPROVALS</span></h2>
+            <button onclick="navigateTo('dev-page')" class="border border-zinc-800 text-zinc-400 hover:text-emerald-400 px-4 py-2 text-xs font-bold uppercase font-mono transition cursor-pointer">← DEV_PANEL</button>
+        </div>
+        
+        <div class="bg-[#0f0f12] border border-zinc-800 p-6">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs font-mono">
+                    <thead>
+                        <tr class="bg-zinc-900/60 border-b border-zinc-800 text-zinc-500 text-[10px]">
+                            <th class="p-4">ORDER_ID</th>
+                            <th class="p-4">USER</th>
+                            <th class="p-4">PRODUCTS</th>
+                            <th class="p-4 text-right">TOTAL</th>
+                            <th class="p-4">STATUS</th>
+                            <th class="p-4">SLIP_UPLOAD</th>
+                            <th class="p-4">ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-orders-tbody" class="divide-y divide-zinc-900">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- MODAL: Slip Upload & Order Details -->
+    <!-- ========================================== -->
+    <div id="slip-upload-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden-section">
+        <div class="bg-[#0f0f12] border-2 border-emerald-500 max-w-md w-full p-6 font-mono relative shadow-[0_0_50px_rgba(16,185,129,0.3)]">
+            <button onclick="closeSlipModal()" class="absolute top-4 right-4 text-zinc-500 hover:text-white text-sm cursor-pointer">[X]</button>
+            
+            <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-4 border-b border-zinc-800 pb-3">PAYMENT_SLIP_UPLOAD</h3>
+            
+            <div id="slip-order-info" class="bg-zinc-900/60 p-3 border border-zinc-800 mb-4 text-[11px]">
+                <!-- Order details will be shown here -->
+            </div>
+            
+            <div class="mb-5">
+                <label class="block text-[10px] text-zinc-400 mb-2 uppercase">SELECT_PAYMENT_SLIP_IMAGE</label>
+                <input type="file" id="slip-file-input" accept="image/*" class="w-full text-zinc-400 text-xs">
+            </div>
+            
+            <button onclick="submitSlipUpload()" class="w-full bg-emerald-500 text-black font-bold py-3 text-xs uppercase tracking-wider hover:bg-emerald-400 transition cursor-pointer">
+                UPLOAD_SLIP
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL POPUP: แก้ไขรหัสผ่านขั้นไซไฟ สวยงาม (มีรหัสเดิม + ประวัติการเปลี่ยน) -->
+    <!-- ========================================== -->
+    <div id="password-modal"
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden-section">
+        <div
+            class="bg-[#0f0f12] border-2 border-emerald-500 max-w-lg w-full p-6 font-mono relative shadow-[0_0_50px_rgba(16,185,129,0.3)]">
+            <button onclick="closePasswordModal()"
+                class="absolute top-4 right-4 text-zinc-500 hover:text-white text-sm cursor-pointer">[X]</button>
+
+            <div class="border-b border-zinc-800 pb-3 mb-4">
+                <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-widest">// SECURITY_KEY_OVERRIDE_PANEL
+                </h4>
+                <p id="pw-modal-target" class="text-sm font-bold text-white mt-1 lowercase"></p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-5 text-xs">
+                <div class="bg-zinc-900/60 p-3 border border-zinc-800">
+                    <span class="text-[9px] text-zinc-500 block uppercase">CURRENT_SECRET_KEY</span>
+                    <span id="pw-modal-current" class="text-white font-bold tracking-wider"></span>
+                </div>
+                <div>
+                    <label class="block text-[9px] text-zinc-400 mb-1 uppercase">ENTER_NEW_SECRET_KEY</label>
+                    <input type="text" id="pw-modal-input" placeholder="NEW_PASS_KEYS"
+                        class="w-full bg-zinc-900 border border-zinc-800 px-3 py-2 text-emerald-400 outline-none text-xs focus:border-emerald-500">
+                </div>
+            </div>
+
+            <button onclick="submitAdminChangePassword()"
+                class="w-full bg-emerald-500 text-black font-bold py-2.5 text-xs uppercase tracking-wider hover:bg-emerald-400 transition cursor-pointer mb-6">
+                COMMIT_RE_ENCRYPTION
+            </button>
+
+            <!-- ส่วนย่อย: แสดงประวัติล็อกเวลาหมุนเวียนคีย์ -->
+            <div class="border-t border-zinc-900 pt-4">
+                <span class="text-[10px] text-zinc-400 font-bold block mb-2 uppercase tracking-wide">📂
+                    KEY_ROTATION_HISTORICAL_LOGS</span>
+                <div class="bg-black/40 border border-zinc-900 max-h-32 overflow-y-auto rounded-none text-[11px]">
+                    <table class="w-full text-left text-zinc-400">
+                        <thead>
+                            <tr class="bg-zinc-950 text-[9px] text-zinc-600 border-b border-zinc-900">
+                                <th class="p-2">TIMESTAMP</th>
+                                <th class="p-2">OLD_KEY</th>
+                                <th class="p-2">NEW_KEY</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pw-modal-logs-tbody" class="divide-y divide-zinc-950"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- FOOTER -->
+    <footer class="bg-[#0a0a0c] text-zinc-600 text-xs border-t border-zinc-900 py-10 font-mono mt-auto">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>© 2026 RSHOP.NET // CYBER ARCHIVE INTEGRATION.</p>
+            <p class="text-[9px] tracking-widest">INFRASTRUCTURE SECURE_STATUS: <span
+                    class="text-emerald-400 font-bold animate-pulse">ONLINE_SANDBOX</span></p>
+        </div>
+    </footer>
+</body>
+
+>>>>>>> d816493a7b3d44d85250207ae771aedca8513cc3
 </html>

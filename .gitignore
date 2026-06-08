@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules
 .env
 .env.local
@@ -5,4 +6,13 @@ node_modules
 .DS_Store
 /.vscode/
 npm-debug.log*
+=======
+node_modules
+.env
+.env.local
+.env.production
+.DS_Store
+/.vscode/
+npm-debug.log*
+>>>>>>> d816493a7b3d44d85250207ae771aedca8513cc3
 package-lock.json
