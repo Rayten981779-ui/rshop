@@ -90,4 +90,3 @@ npm start
 `💥 RSHOP SECURE MAINFRAME RUNNING ON http://localhost:5000`
 
 เปิด Browser แล้วเข้าไปที่ลิงก์ [http://localhost:5000](http://localhost:5000) เพื่อทดลองใช้งานระบบล็อกอินด้วย Google Account จริงแบบสมบูรณ์!
-33
