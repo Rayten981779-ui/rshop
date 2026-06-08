@@ -31,11 +31,15 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL;
 
 function isGoogleClientIdValid() {
-    return !!GOOGLE_CLIENT_ID && !GOOGLE_CLIENT_ID.includes('your_client_id');
+    if (!GOOGLE_CLIENT_ID) return false;
+    const lower = GOOGLE_CLIENT_ID.toLowerCase();
+    return !lower.includes('your_client_id') && !lower.includes('your_client') && !lower.includes('your-client');
 }
 
 function isGoogleClientSecretValid() {
-    return !!GOOGLE_CLIENT_SECRET && !GOOGLE_CLIENT_SECRET.includes('your_client_secret');
+    if (!GOOGLE_CLIENT_SECRET) return false;
+    const lower = GOOGLE_CLIENT_SECRET.toLowerCase();
+    return !lower.includes('your_client_secret') && !lower.includes('your_client') && !lower.includes('your-secret');
 }
 
 function isGoogleOAuthConfigured() {
@@ -429,21 +433,29 @@ app.get('/auth/google', (req, res) => {
     if (!isGoogleClientIdValid()) {
         return res.status(500).send('Google Client ID is not configured on the server.');
     }
+    if (!GOOGLE_CALLBACK_URL) {
+        return res.status(500).send('Google callback URL is not configured on the server. Set GOOGLE_CALLBACK_URL in environment variables.');
+    }
 
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}&redirect_uri=${encodeURIComponent(GOOGLE_CALLBACK_URL)}&response_type=code&scope=${encodeURIComponent('openid email profile')}&access_type=online&prompt=consent`;
+    console.log('Redirecting to Google OAuth endpoint:', authUrl);
     res.redirect(authUrl);
 });
 
 app.get('/auth/google/callback', async (req, res) => {
     const { code, error } = req.query;
     console.log('GET /auth/google/callback called.');
-    console.log(`callback query:`, req.query);
+    console.log('originalUrl:', req.originalUrl);
+    console.log('callback query:', req.query);
+    console.log('callback code:', code);
+    console.log('callback error:', error);
 
     if (error) {
         return res.status(400).send(`Google OAuth error: ${error}`);
     }
     if (!code) {
-        return res.status(400).send('Missing authorization code from Google callback.');
+        const queryDump = JSON.stringify(req.query, null, 2);
+        return res.status(400).send(`Missing authorization code from Google callback.\n\nQuery: ${queryDump}`);
     }
 
     try {
