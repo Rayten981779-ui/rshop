@@ -5,6 +5,7 @@ let countdownInterval = null;
 let currentFilter = 'ALL';
 let activeCheckoutItem = null;
 let activeDevTab = 'products'; // แท็บหน้าระบบผู้พัฒนา: 'products', 'users', หรือ 'finance'
+let currentDevUsers = [];
 
 const translations = {
     en: {
@@ -14,7 +15,7 @@ const translations = {
         ordersButton: 'ORDERS',
         devPortal: 'DEV_PORTAL',
         heroTag: 'SECURE ASSET DEPOT v5.0',
-        heroHeadline: 'PREMIUM 3D CYBER STRUCTURES',
+        heroHeadline: 'PREMIUM 3D <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-500 drop-shadow-[0_0_20px_rgba(16,185,129,0.3)]">CYBER STRUCTURES</span>',
         heroSub: 'Download premium assets with secure QR payment and admin approval.',
         allAssets: 'ALL_ASSETS',
         architecture: 'ARCHITECTURE',
@@ -67,7 +68,7 @@ const translations = {
         ordersButton: 'คำสั่งซื้อ',
         devPortal: 'DEV_PORTAL',
         heroTag: 'คลังสินค้าปลอดภัย v5.0',
-        heroHeadline: 'โมเดล 3D พรีเมียม',
+        heroHeadline: 'โมเดล 3D <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-500 drop-shadow-[0_0_20px_rgba(16,185,129,0.3)]">พรีเมียม</span>',
         heroSub: 'ดาวน์โหลดสินค้าคุณภาพ พร้อมระบบ QR ชำระเงินและอัปโหลดสลิปจริง',
         allAssets: 'สินค้าทั้งหมด',
         architecture: 'อาคาร',
@@ -136,7 +137,7 @@ function applyTranslations() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.dataset.i18n;
         if (translations[currentLang] && translations[currentLang][key]) {
-            el.textContent = translations[currentLang][key];
+            el.innerHTML = translations[currentLang][key];
         }
     });
 }
@@ -301,7 +302,7 @@ async function renderFinanceView() {
         });
 
         if (txCount === 0) {
-            tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-zinc-655">// LEDGER_EMPTY //</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-zinc-500">// LEDGER_EMPTY //</td></tr>`;
         }
     } catch (err) {
         console.error(err);
@@ -641,7 +642,7 @@ function renderDevView() {
                 <td class="p-3 font-mono text-zinc-500 text-[10px] break-all max-w-xs">${item.download}</td>
                 <td class="p-3 text-right font-mono font-bold text-emerald-400">฿${parseFloat(item.price).toLocaleString()}</td>
                 <td class="p-3 text-center">
-                    <button class="border border-zinc-800 text-zinc-650 px-2 py-0.5 cursor-not-allowed text-[10px]" title="ระบบสินค้าตัวอย่างถูกล็อกสิทธิ์ความปลอดภัยใน Code">LOCKED</button>
+                    <button class="border border-zinc-800 text-zinc-500 px-2 py-0.5 cursor-not-allowed text-[10px]" title="ระบบสินค้าตัวอย่างถูกล็อกสิทธิ์ความปลอดภัยใน Code">LOCKED</button>
                 </td>
             </tr>
         `;
@@ -657,6 +658,7 @@ async function renderUsersView() {
     try {
         const res = await fetch('/api/dev/users');
         const serverUsers = await res.json();
+        currentDevUsers = serverUsers;
 
         serverUsers.forEach((user) => {
             let statusBadge = "";
@@ -671,7 +673,7 @@ async function renderUsersView() {
 
             let itemsList = user.boughtItems && user.boughtItems.length > 0
                 ? user.boughtItems.map(item => `<div class="text-zinc-300 text-[11px]">• ${item}</div>`).join('')
-                : `<span class="text-zinc-650 text-[11px]">ไม่มีประวัติครอบครอง</span>`;
+                : `<span class="text-zinc-500 text-[11px]">ไม่มีประวัติครอบครอง</span>`;
 
             let passwordDisplay = "";
             if (user.isGoogle) {
@@ -734,18 +736,90 @@ async function sendAdminAction(username, action, payload = '') {
     }
 }
 
+let activePasswordResetUsername = null;
+let activePasswordResetCurrentHash = null;
+
+function openPasswordModal(username, currentHash) {
+    activePasswordResetUsername = username;
+    activePasswordResetCurrentHash = currentHash;
+
+    document.getElementById('pw-modal-target').textContent = `user: ${username}`;
+    document.getElementById('pw-modal-current').textContent = currentHash.substring(0, 15) + "...";
+    document.getElementById('pw-modal-current').title = currentHash;
+    document.getElementById('pw-modal-input').value = '';
+
+    renderKeyRotationLogs(username);
+
+    document.getElementById('password-modal').classList.remove('hidden-section');
+}
+
+function closePasswordModal() {
+    document.getElementById('password-modal').classList.add('hidden-section');
+    activePasswordResetUsername = null;
+    activePasswordResetCurrentHash = null;
+}
+
+function renderKeyRotationLogs(username) {
+    const tbody = document.getElementById('pw-modal-logs-tbody');
+    tbody.innerHTML = '';
+
+    const storageKey = `rshop_pw_rotation_logs_${username}`;
+    const logs = JSON.parse(localStorage.getItem(storageKey) || '[]');
+
+    if (logs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" class="p-2 text-center text-zinc-600">// LOGS_EMPTY //</td></tr>`;
+        return;
+    }
+
+    logs.slice().reverse().forEach(log => {
+        tbody.innerHTML += `
+            <tr class="hover:bg-zinc-900/40 border-b border-zinc-955 transition text-[10px]">
+                <td class="p-2 text-zinc-500">${log.timestamp}</td>
+                <td class="p-2 text-zinc-400 font-mono select-all truncate max-w-[120px]" title="${log.oldHash}">${log.oldHash.substring(0, 10)}...</td>
+                <td class="p-2 text-emerald-400 font-mono select-all truncate max-w-[120px]" title="${log.newHash}">${log.newHash.substring(0, 10)}...</td>
+            </tr>
+        `;
+    });
+}
+
+async function submitAdminChangePassword() {
+    const newPass = document.getElementById('pw-modal-input').value.trim();
+    if (!newPass) return alert('รหัสผ่านต้องห้ามเป็นช่องว่างครับ');
+
+    const username = activePasswordResetUsername;
+    const oldHash = activePasswordResetCurrentHash;
+
+    const success = await sendAdminAction(username, 'CHANGE_PASSWORD', newPass);
+    if (success) {
+        const res = await fetch('/api/dev/users');
+        const serverUsers = await res.json();
+        currentDevUsers = serverUsers;
+        const updatedUser = serverUsers.find(u => u.username === username);
+        const newHash = updatedUser ? updatedUser.password : '[HASH_GENERATION_FAILED]';
+
+        const storageKey = `rshop_pw_rotation_logs_${username}`;
+        const logs = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+        logs.push({
+            timestamp,
+            oldHash,
+            newHash
+        });
+        localStorage.setItem(storageKey, JSON.stringify(logs));
+
+        alert('เปลี่ยนรหัสผ่านในระบบคอร์หลักเรียบร้อยแล้ว');
+        closePasswordModal();
+        await renderUsersView();
+    }
+}
+
 async function adminChangePassword(username, isGoogle) {
     if (isGoogle) {
         return alert('REJECTED: ไม่สามารถเปลี่ยนรหัสผ่านของบัญชี Google Sign-In ผ่านแผงควบคุมแอดมินได้');
     }
-    const newPass = prompt(`กรุณาระบุรหัสผ่านใหม่สำหรับบัญชี [ ${username} ] :`);
-    if (newPass === null) return;
-    if (!newPass.trim()) return alert('รหัสผ่านต้องห้ามเป็นช่องว่างครับ');
-
-    const success = await sendAdminAction(username, 'CHANGE_PASSWORD', newPass.trim());
-    if (success) {
-        alert('เปลี่ยนรหัสผ่านในระบบคอร์หลักเรียบร้อยแล้ว');
-    }
+    const user = currentDevUsers.find(u => u.username === username);
+    const currentHash = user ? user.password : '';
+    openPasswordModal(username, currentHash);
 }
 
 async function adminBanUser(username) {
