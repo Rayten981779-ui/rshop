@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* คลาสสำหรับใช้ซ่อนหน้าจอเซกชันที่ไม่ได้ใช้งาน */
 .hidden-section {
     display: none !important;
@@ -49,14 +48,14 @@ body {
     height: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: #0a0a0c; 
+    background: #0a0a0c;
 }
 ::-webkit-scrollbar-thumb {
-    background: #10b981; 
+    background: #10b981;
     border-radius: 0px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #059669; 
+    background: #059669;
 }
 
 /* ตกแต่ง Input เวลา Focus */
@@ -82,89 +81,4 @@ input:focus, select:focus {
         border-color: rgba(239, 68, 68, 0.9);
         box-shadow: 0 0 45px rgba(239, 68, 68, 0.3);
     }
-=======
-/* คลาสสำหรับใช้ซ่อนหน้าจอเซกชันที่ไม่ได้ใช้งาน */
-.hidden-section {
-    display: none !important;
-}
-
-/* ตั้งฟอนต์สไตล์ไซไฟ-ไซเบอร์พังค์ */
-body {
-    font-family: 'Prompt', system-ui, -apple-system, sans-serif;
-}
-
-.font-display, .font-mono {
-    font-family: 'Orbitron', 'Prompt', monospace, sans-serif;
-}
-
-/* เอฟเฟกต์รูปภาพการ์ดโมเดลไซเบอร์ */
-.product-card-img-container {
-    position: relative;
-    overflow: hidden;
-    background-color: #16161a;
-    border-bottom: 1px solid rgba(16, 185, 129, 0.1);
-}
-
-.product-card-img {
-    filter: grayscale(80%) contrast(110%) brightness(80%);
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.group:hover .product-card-img {
-    filter: grayscale(0%) contrast(100%) brightness(100%);
-    transform: scale(1.04);
-}
-
-/* ปุ่มเลื่อนสั่งซื้อสินค้า */
-.product-buy-btn {
-    opacity: 0;
-    transform: translateY(12px);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.group:hover .product-buy-btn {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* ตกแต่งสกรอลบาร์ธีม Cyber Green */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-::-webkit-scrollbar-track {
-    background: #0a0a0c; 
-}
-::-webkit-scrollbar-thumb {
-    background: #10b981; 
-    border-radius: 0px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #059669; 
-}
-
-/* ตกแต่ง Input เวลา Focus */
-input, select {
-    transition: all 0.3s ease;
-}
-input:focus, select:focus {
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
-}
-
-/* Google Sign-in Modal Glow Animation */
-#google-modal > div {
-    box-shadow: 0 0 35px rgba(239, 68, 68, 0.15);
-    animation: borderPulse 3s infinite alternate;
-}
-
-@keyframes borderPulse {
-    0% {
-        border-color: rgba(239, 68, 68, 0.4);
-        box-shadow: 0 0 25px rgba(239, 68, 68, 0.1);
-    }
-    100% {
-        border-color: rgba(239, 68, 68, 0.9);
-        box-shadow: 0 0 45px rgba(239, 68, 68, 0.3);
-    }
->>>>>>> d816493a7b3d44d85250207ae771aedca8513cc3
 }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # RShop
 
 RShop is a full-stack Node.js project with SQLite, JWT authentication, and Google OAuth support.
@@ -60,7 +59,6 @@ When GitHub receives a new push to `main`, Render will deploy the latest version
 - Do not commit `.env` or any secret values to GitHub.
 - `.env` is ignored by `.gitignore`.
 - Use `.env.example` for placeholder configuration.
-=======
 # RShop
 
 RShop is a full-stack Node.js project with SQLite, JWT authentication, and Google OAuth support.
@@ -122,4 +120,4 @@ When GitHub receives a new push to `main`, Render will deploy the latest version
 - Do not commit `.env` or any secret values to GitHub.
 - `.env` is ignored by `.gitignore`.
 - Use `.env.example` for placeholder configuration.
->>>>>>> d816493a7b3d44d85250207ae771aedca8513cc3
+
