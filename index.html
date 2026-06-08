@@ -28,25 +28,25 @@
     <!-- NAVIGATION BAR -->
     <nav class="bg-[#0f0f12]/90 border-b border-emerald-500/20 sticky top-0 z-40 backdrop-blur-md">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('customer-page')">
+            <div class="flex items-center space-x-3 cursor-pointer" data-action="navigate-customer-page">
                 <span
                     class="text-xl font-black font-mono tracking-tighter uppercase border border-emerald-500 text-emerald-400 px-2 py-0.5 bg-emerald-950/50 shadow-[0_0_10px_rgba(16,185,129,0.2)]">R</span>
                 <span class="text-xl font-bold tracking-widest font-display text-white">RSHOP<span
                         class="text-emerald-400">.net</span></span>
             </div>
             <div class="flex items-center space-x-6 text-xs font-bold uppercase tracking-widest font-mono">
-                <button onclick="navigateTo('customer-page')"
+                <button data-action="navigate-customer-page"
                     class="text-zinc-400 hover:text-emerald-400 transition cursor-pointer">// MATRIX</button>
                 <div class="flex items-center space-x-2">
-                    <button id="btn-lang-th" onclick="setLanguage('th')" class="text-emerald-400 border border-emerald-500 px-3 py-1 rounded-sm uppercase text-[10px]">TH</button>
-                    <button id="btn-lang-en" onclick="setLanguage('en')" class="text-emerald-400 border border-emerald-500 px-3 py-1 rounded-sm uppercase text-[10px]">EN</button>
+                    <button id="btn-lang-th" data-action="set-lang-th" class="text-emerald-400 border border-emerald-500 px-3 py-1 rounded-sm uppercase text-[10px]">TH</button>
+                    <button id="btn-lang-en" data-action="set-lang-en" class="text-emerald-400 border border-emerald-500 px-3 py-1 rounded-sm uppercase text-[10px]">EN</button>
                 </div>
 
                 <!-- แสดงเมื่อยังไม่ได้ล็อกอิน -->
                 <div id="guest-zone" class="flex items-center space-x-4">
-                    <button onclick="navigateTo('login-cust-page')" data-i18n="signIn"
+                    <button data-action="navigate-login-cust-page" data-i18n="signIn"
                         class="text-zinc-400 hover:text-emerald-400 transition cursor-pointer">SIGN_IN</button>
-                    <button onclick="navigateTo('register-cust-page')" data-i18n="register"
+                    <button data-action="navigate-register-cust-page" data-i18n="register"
                         class="border border-emerald-500 text-emerald-400 px-4 py-1.5 bg-emerald-950/30 hover:bg-emerald-500 hover:text-black transition shadow-[0_0_15px_rgba(16,185,129,0.1)] cursor-pointer">REGISTER</button>
                 </div>
 
@@ -55,14 +55,14 @@
                     class="hidden-section flex items-center space-x-3 border border-zinc-800 px-2 py-1 bg-zinc-900/50">
                     <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                     <span id="user-display" class="text-emerald-400 font-medium text-xs lowercase"></span>
-                    <button onclick="viewOrders()" data-i18n="ordersButton"
+                    <button data-action="view-orders" data-i18n="ordersButton"
                         class="text-zinc-400 hover:text-emerald-400 transition ml-1 text-[10px] cursor-pointer">[ORDERS]</button>
-                    <button onclick="logoutCustomer()"
+                    <button data-action="logout-customer"
                         class="text-red-400 hover:text-red-500 transition ml-1 text-[10px] cursor-pointer">[EXIT]</button>
                 </div>
 
                 <span class="text-zinc-800">|</span>
-                <button onclick="navigateTo('login-page')" data-i18n="devPortal"
+                <button data-action="navigate-login-page" data-i18n="devPortal"
                     class="text-zinc-600 hover:text-zinc-400 transition cursor-pointer">DEV_PORTAL</button>
             </div>
         </div>
@@ -92,13 +92,13 @@
         <!-- โซนสินค้าและฟิลเตอร์ -->
         <div class="container mx-auto px-6 py-16">
             <div class="flex justify-center space-x-3 mb-16 border-b border-zinc-900 pb-6 font-mono">
-                <button onclick="filterCategory('ALL')" id="btn-cat-all" data-i18n="allAssets"
+                <button data-action="filter-category" data-category="ALL" id="btn-cat-all" data-i18n="allAssets"
                     class="px-5 py-2 text-xs font-bold border border-emerald-500 bg-emerald-500 text-black transition cursor-pointer">ALL_ASSETS</button>
-                <button onclick="filterCategory('HOME')" id="btn-cat-home" data-i18n="architecture"
+                <button data-action="filter-category" data-category="HOME" id="btn-cat-home" data-i18n="architecture"
                     class="px-5 py-2 text-xs font-bold border border-transparent text-zinc-500 hover:text-emerald-400 transition cursor-pointer">ARCHITECTURE</button>
-                <button onclick="filterCategory('CAR')" id="btn-cat-car" data-i18n="vehicles"
+                <button data-action="filter-category" data-category="CAR" id="btn-cat-car" data-i18n="vehicles"
                     class="px-5 py-2 text-xs font-bold border border-transparent text-zinc-500 hover:text-emerald-400 transition cursor-pointer">VEHICLES</button>
-                <button onclick="filterCategory('OTHER')" id="btn-cat-other" data-i18n="others"
+                <button data-action="filter-category" data-category="OTHER" id="btn-cat-other" data-i18n="others"
                     class="px-5 py-2 text-xs font-bold border border-transparent text-zinc-500 hover:text-emerald-400 transition cursor-pointer">OTHERS</button>
             </div>
 
@@ -127,7 +127,7 @@
                     <input type="password" id="reg-pass" placeholder="••••••••"
                         class="w-full bg-zinc-900/50 border border-zinc-800 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 font-mono transition">
                 </div>
-                <button onclick="registerCustomer()" data-i18n="initializeAccount"
+                <button data-action="register-customer" data-i18n="initializeAccount"
                     class="w-full bg-emerald-500 text-black text-xs font-bold py-4 uppercase tracking-widest font-mono hover:bg-emerald-400 transition cursor-pointer">INITIALIZE
                     ACCOUNT</button>
             </div>
@@ -153,11 +153,11 @@
                         class="w-full bg-zinc-900/50 border border-zinc-800 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 font-mono transition">
                 </div>
                 <div class="text-right">
-                    <button onclick="navigateTo('forgot-page')" data-i18n="forgotPassword"
+                    <button data-action="navigate-forgot-page" data-i18n="forgotPassword"
                         class="text-xs text-zinc-500 hover:text-emerald-400 font-mono transition cursor-pointer">[
                         FORGOT_PASSWORD? ]</button>
                 </div>
-                <button onclick="loginCustomer()" data-i18n="establishConnection"
+                <button data-action="login-customer" data-i18n="establishConnection"
                     class="w-full bg-emerald-500 text-black text-xs font-bold py-4 uppercase tracking-widest font-mono hover:bg-emerald-400 transition cursor-pointer">ESTABLISH
                     CONNECTION</button>
 
@@ -168,7 +168,7 @@
                 </div>
 
                 <!-- Google Sign-In Button -->
-                <button onclick="startGoogleLogin()"
+                <button data-action="start-google-login"
                     class="w-full border border-red-500/30 text-red-400 text-xs font-bold py-3.5 uppercase tracking-widest font-mono hover:bg-red-950/20 hover:border-red-500 transition cursor-pointer flex items-center justify-center space-x-2">
                     <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                         <path
@@ -193,7 +193,7 @@
                     <input type="text" id="forgot-username" placeholder="cyber_warrior"
                         class="w-full bg-zinc-900/50 border border-zinc-800 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 font-mono transition">
                 </div>
-                <button onclick="requestResetPassword()" data-i18n="sendRecoveryLink"
+                <button data-action="request-reset-password" data-i18n="sendRecoveryLink"
                     class="w-full bg-zinc-800 text-white text-xs font-bold py-4 uppercase tracking-widest font-mono hover:bg-zinc-700 transition cursor-pointer">SEND
                     RECOVERY LINK</button>
             </div>
@@ -215,7 +215,7 @@
                     <input type="password" id="reset-new-pass" placeholder="••••••••"
                         class="w-full bg-zinc-900 border border-zinc-800 px-4 py-3 text-sm text-white outline-none focus:border-emerald-500 font-mono transition">
                 </div>
-                <button onclick="executeResetPassword()"
+                <button data-action="execute-reset-password"
                     class="w-full bg-emerald-500 text-black text-xs font-bold py-4 uppercase tracking-widest font-mono hover:bg-emerald-400 transition cursor-pointer">COMMIT
                     ALTERATION</button>
             </div>
@@ -233,7 +233,7 @@
                     <input type="password" id="dev-password" placeholder="••••"
                         class="w-full bg-zinc-900 border border-zinc-800 px-4 py-3 text-sm text-emerald-400 outline-none focus:border-emerald-500 font-mono tracking-widest text-center">
                 </div>
-                <button onclick="loginDev()" data-i18n="accessMainframe"
+                <button data-action="login-dev" data-i18n="accessMainframe"
                     class="w-full bg-zinc-100 text-black text-xs font-bold py-4 uppercase tracking-widest font-mono hover:bg-zinc-200 transition cursor-pointer">ACCESS
                     MAINFRAME</button>
             </div>
@@ -248,7 +248,7 @@
                         class="text-emerald-400">SUPER_ADMIN</span></h2>
                 <p class="text-xs text-zinc-500 font-mono mt-1">Real-time Financial Sync & User Matrix Security Core</p>
             </div>
-            <button onclick="logoutDev()"
+            <button data-action="logout-dev"
                 class="border border-red-500/50 text-red-400 hover:bg-red-500 hover:text-black px-4 py-2 text-xs font-bold uppercase font-mono tracking-wider transition cursor-pointer">TERMINATE_SESSION</button>
         </div>
 
@@ -271,16 +271,16 @@
 
         <!-- แท็บสลับหน้าบอร์ดแอดมิน เพื่อความสลวยสะอาดตา -->
         <div class="flex space-x-2 mb-8 font-mono text-xs">
-            <button onclick="switchDevTab('products')" id="dev-tab-products" data-i18n="manageAssets"
+            <button data-action="switch-dev-tab" data-dev-tab="products" id="dev-tab-products" data-i18n="manageAssets"
                 class="px-5 py-2.5 font-bold border border-emerald-500 bg-emerald-500 text-black cursor-pointer">📦
                 MANAGE_ASSETS</button>
-            <button onclick="switchDevTab('users')" id="dev-tab-users" data-i18n="userSecurity"
+            <button data-action="switch-dev-tab" data-dev-tab="users" id="dev-tab-users" data-i18n="userSecurity"
                 class="px-5 py-2.5 font-bold border border-zinc-800 text-zinc-400 bg-zinc-900/30 hover:text-emerald-400 cursor-pointer">👥
                 USER_SECURITY_MATRIX</button>
-            <button onclick="switchDevTab('finance')" id="dev-tab-finance" data-i18n="financialLedger"
+            <button data-action="switch-dev-tab" data-dev-tab="finance" id="dev-tab-finance" data-i18n="financialLedger"
                 class="px-5 py-2.5 font-bold border border-zinc-800 text-zinc-400 bg-zinc-900/30 hover:text-emerald-400 cursor-pointer">📊
                 FINANCIAL_LEDGER</button>
-            <button onclick="viewAdminOrders()" data-i18n="adminOrderPanel"
+            <button data-action="view-admin-orders" data-i18n="adminOrderPanel"
                 class="px-5 py-2.5 font-bold border border-zinc-800 text-zinc-400 bg-zinc-900/30 hover:text-blue-400 cursor-pointer">📋
                 ORDER_APPROVALS</button>
         </div>
@@ -328,7 +328,7 @@
                         <input type="number" id="system-timer" value="45"
                             class="w-full border border-emerald-500/40 bg-emerald-950/20 text-emerald-400 text-center font-bold py-2">
                     </div>
-                    <button onclick="addProduct()"
+                    <button data-action="add-product"
                         class="w-full bg-emerald-500 text-black text-xs font-bold py-3 uppercase tracking-wider font-mono hover:bg-emerald-400 transition cursor-pointer">PUBLISH
                         TO NETWORK</button>
                 </div>
@@ -436,9 +436,9 @@
             </div>
 
             <div class="mt-8 flex space-x-3 font-mono">
-                <button onclick="cancelCheckout()" data-i18n="abort"
+                <button data-action="cancel-checkout" data-i18n="abort"
                     class="w-1/3 border border-zinc-800 text-zinc-400 py-3 text-xs font-bold uppercase hover:border-zinc-600 transition cursor-pointer">ABORT</button>
-                <button onclick="simulateKBankCallback()" data-i18n="forcePayment"
+                <button data-action="simulate-kbank-callback" data-i18n="forcePayment"
                     class="w-2/3 bg-emerald-500 text-black py-3 text-xs font-bold uppercase hover:bg-emerald-400 transition font-bold shadow-[0_0_15px_rgba(16,185,129,0.2)] cursor-pointer">FORCE_PAYMENT_SUCCESS</button>
             </div>
         </div>
@@ -468,7 +468,7 @@
                 DOWNLOAD_ASSET_PACKAGE
             </a>
 
-            <button onclick="navigateTo('customer-page')" data-i18n="returnToShowcase"
+            <button data-action="navigate-customer-page" data-i18n="returnToShowcase"
                 class="mt-6 text-xs font-mono text-zinc-500 hover:text-emerald-400 underline transition cursor-pointer">RETURN_TO_SHOWCASE</button>
         </div>
     </section>
@@ -477,7 +477,7 @@
     <section id="orders-page" class="hidden-section flex-grow container mx-auto px-6 py-12">
         <div class="flex justify-between items-center border-b border-zinc-800 pb-6 mb-10">
             <h2 class="text-2xl font-black uppercase tracking-wider font-display text-white">MY_ORDERS // <span class="text-emerald-400">TRANSACTION_HISTORY</span></h2>
-            <button onclick="navigateTo('customer-page')" class="border border-zinc-800 text-zinc-400 hover:text-emerald-400 px-4 py-2 text-xs font-bold uppercase font-mono transition cursor-pointer">← BACK</button>
+            <button data-action="navigate-customer-page" class="border border-zinc-800 text-zinc-400 hover:text-emerald-400 px-4 py-2 text-xs font-bold uppercase font-mono transition cursor-pointer">← BACK</button>
         </div>
         
         <div id="orders-list" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -489,7 +489,7 @@
     <section id="admin-orders-page" class="hidden-section flex-grow container mx-auto px-6 py-12">
         <div class="flex justify-between items-center border-b border-zinc-800 pb-6 mb-10">
             <h2 class="text-2xl font-black uppercase tracking-wider font-display text-white">ADMIN_ORDER_CENTER // <span class="text-emerald-400">PENDING_APPROVALS</span></h2>
-            <button onclick="navigateTo('dev-page')" class="border border-zinc-800 text-zinc-400 hover:text-emerald-400 px-4 py-2 text-xs font-bold uppercase font-mono transition cursor-pointer">← DEV_PANEL</button>
+            <button data-action="navigate-dev-page" class="border border-zinc-800 text-zinc-400 hover:text-emerald-400 px-4 py-2 text-xs font-bold uppercase font-mono transition cursor-pointer">← DEV_PANEL</button>
         </div>
         
         <div class="bg-[#0f0f12] border border-zinc-800 p-6">
@@ -519,7 +519,7 @@
     <!-- ========================================== -->
     <div id="slip-upload-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden-section">
         <div class="bg-[#0f0f12] border-2 border-emerald-500 max-w-md w-full p-6 font-mono relative shadow-[0_0_50px_rgba(16,185,129,0.3)]">
-            <button onclick="closeSlipModal()" class="absolute top-4 right-4 text-zinc-500 hover:text-white text-sm cursor-pointer">[X]</button>
+            <button data-action="close-slip-modal" class="absolute top-4 right-4 text-zinc-500 hover:text-white text-sm cursor-pointer">[X]</button>
             
             <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-4 border-b border-zinc-800 pb-3">PAYMENT_SLIP_UPLOAD</h3>
             
@@ -532,7 +532,7 @@
                 <input type="file" id="slip-file-input" accept="image/*" class="w-full text-zinc-400 text-xs">
             </div>
             
-            <button onclick="submitSlipUpload()" class="w-full bg-emerald-500 text-black font-bold py-3 text-xs uppercase tracking-wider hover:bg-emerald-400 transition cursor-pointer">
+            <button data-action="submit-slip-upload" class="w-full bg-emerald-500 text-black font-bold py-3 text-xs uppercase tracking-wider hover:bg-emerald-400 transition cursor-pointer">
                 UPLOAD_SLIP
             </button>
         </div>
@@ -545,7 +545,7 @@
         class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden-section">
         <div
             class="bg-[#0f0f12] border-2 border-emerald-500 max-w-lg w-full p-6 font-mono relative shadow-[0_0_50px_rgba(16,185,129,0.3)]">
-            <button onclick="closePasswordModal()"
+            <button data-action="close-password-modal"
                 class="absolute top-4 right-4 text-zinc-500 hover:text-white text-sm cursor-pointer">[X]</button>
 
             <div class="border-b border-zinc-800 pb-3 mb-4">
@@ -566,7 +566,7 @@
                 </div>
             </div>
 
-            <button onclick="submitAdminChangePassword()"
+            <button data-action="submit-admin-password-change"
                 class="w-full bg-emerald-500 text-black font-bold py-2.5 text-xs uppercase tracking-wider hover:bg-emerald-400 transition cursor-pointer mb-6">
                 COMMIT_RE_ENCRYPTION
             </button>

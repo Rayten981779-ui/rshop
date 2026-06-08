@@ -155,6 +155,120 @@ function updateLangButtons() {
     }
 }
 
+function handleActionClick(event) {
+    const button = event.target.closest('[data-action]');
+    if (!button) return;
+    const action = button.dataset.action;
+    if (!action) return;
+
+    switch (action) {
+        case 'navigate-customer-page':
+            navigateTo('customer-page');
+            break;
+        case 'navigate-login-cust-page':
+            navigateTo('login-cust-page');
+            break;
+        case 'navigate-register-cust-page':
+            navigateTo('register-cust-page');
+            break;
+        case 'navigate-forgot-page':
+            navigateTo('forgot-page');
+            break;
+        case 'navigate-login-page':
+            navigateTo('login-page');
+            break;
+        case 'navigate-dev-page':
+            navigateTo('dev-page');
+            break;
+        case 'login-customer':
+            loginCustomer();
+            break;
+        case 'register-customer':
+            registerCustomer();
+            break;
+        case 'view-orders':
+            viewOrders();
+            break;
+        case 'logout-customer':
+            logoutCustomer();
+            break;
+        case 'login-dev':
+            loginDev();
+            break;
+        case 'logout-dev':
+            logoutDev();
+            break;
+        case 'start-google-login':
+            startGoogleLogin();
+            break;
+        case 'request-reset-password':
+            requestResetPassword();
+            break;
+        case 'execute-reset-password':
+            executeResetPassword();
+            break;
+        case 'switch-dev-tab':
+            switchDevTab(button.dataset.devTab || 'products');
+            break;
+        case 'view-admin-orders':
+            viewAdminOrders();
+            break;
+        case 'add-product':
+            addProduct();
+            break;
+        case 'cancel-checkout':
+            cancelCheckout();
+            break;
+        case 'simulate-kbank-callback':
+            simulateKBankCallback();
+            break;
+        case 'close-slip-modal':
+            closeSlipModal();
+            break;
+        case 'submit-slip-upload':
+            submitSlipUpload();
+            break;
+        case 'close-password-modal':
+            closePasswordModal();
+            break;
+        case 'submit-admin-password-change':
+            submitAdminChangePassword();
+            break;
+        case 'filter-category':
+            if (button.dataset.category) filterCategory(button.dataset.category);
+            break;
+        case 'buy-product':
+            buyProcess(Number(button.dataset.productId));
+            break;
+        case 'admin-change-password':
+            openPasswordModal(button.dataset.username, currentDevUsers.find(u => u.username === button.dataset.username)?.password || '');
+            break;
+        case 'admin-ban-user':
+            adminBanUser(button.dataset.username);
+            break;
+        case 'admin-unban-user':
+            adminUnbanUser(button.dataset.username);
+            break;
+        case 'admin-timed-lock':
+            adminTimedLock(button.dataset.username);
+            break;
+        case 'open-slip-upload':
+            openSlipUploadModal(Number(button.dataset.orderId));
+            break;
+        case 'download-order-assets':
+            downloadOrderAssets(Number(button.dataset.orderId));
+            break;
+        case 'approve-order':
+            approveOrder(Number(button.dataset.orderId));
+            break;
+        case 'reject-order':
+            rejectOrder(Number(button.dataset.orderId));
+            break;
+        default:
+            break;
+    }
+}
+
 function initLanguage() {
     setLanguage(currentLang);
 }
@@ -523,7 +637,7 @@ function renderCustomerView() {
                     </div>
                     <div class="flex items-center justify-between border-t border-zinc-900 pt-3 h-10 overflow-hidden relative">
                         <span class="text-base font-mono font-black text-emerald-400">฿${parseFloat(item.price).toLocaleString()}</span>
-                        <button onclick="buyProcess(${item.id})" class="product-buy-btn bg-emerald-500 text-black text-[10px] font-mono font-bold uppercase px-3 py-2 hover:bg-emerald-400 transition cursor-pointer">
+                        <button data-action="buy-product" data-product-id="${item.id}" class="product-buy-btn bg-emerald-500 text-black text-[10px] font-mono font-bold uppercase px-3 py-2 hover:bg-emerald-400 transition cursor-pointer">
                             ACQUIRE_DATA
                         </button>
                     </div>
@@ -694,14 +808,18 @@ async function renderUsersView() {
                     <td class="p-4 bg-zinc-950/30 border-x border-zinc-900/50">${itemsList}</td>
                     <td class="p-4">
                         <div class="flex flex-wrap gap-2 justify-center">
-                            <button onclick="adminChangePassword('${user.username}', ${user.isGoogle})" class="bg-zinc-800 text-white hover:bg-zinc-700 px-2 py-1 text-[10px] uppercase font-bold cursor-pointer">🔑 แก้รหัส</button>
+                            <button data-action="admin-change-password" data-username="${user.username}" data-is-google="${user.isGoogle}"
+                                class="bg-zinc-800 text-white hover:bg-zinc-700 px-2 py-1 text-[10px] uppercase font-bold cursor-pointer">🔑 แก้รหัส</button>
                             
                             ${user.status !== 'BANNED'
-                    ? `<button onclick="adminBanUser('${user.username}')" class="bg-red-950/50 border border-red-600 text-red-400 hover:bg-red-600 hover:text-black px-2 py-1 text-[10px] uppercase font-bold cursor-pointer">🛑 แบนถาวร</button>`
-                    : `<button onclick="adminUnbanUser('${user.username}')" class="bg-zinc-800 border border-zinc-600 text-zinc-300 hover:bg-zinc-600 hover:text-black px-2 py-1 text-[10px] uppercase font-bold cursor-pointer">ปลดแบน</button>`
+                    ? `<button data-action="admin-ban-user" data-username="${user.username}"
+                        class="bg-red-950/50 border border-red-600 text-red-400 hover:bg-red-600 hover:text-black px-2 py-1 text-[10px] uppercase font-bold cursor-pointer">🛑 แบนถาวร</button>`
+                    : `<button data-action="admin-unban-user" data-username="${user.username}"
+                        class="bg-zinc-800 border border-zinc-600 text-zinc-300 hover:bg-zinc-600 hover:text-black px-2 py-1 text-[10px] uppercase font-bold cursor-pointer">ปลดแบน</button>`
                 }
                             
-                            <button onclick="adminTimedLock('${user.username}')" class="bg-amber-950/50 border border-amber-600 text-amber-400 hover:bg-amber-500 hover:text-black px-2 py-1 text-[10px] uppercase font-bold cursor-pointer">⏳ บล็อกเวลา</button>
+                            <button data-action="admin-timed-lock" data-username="${user.username}"
+                                class="bg-amber-950/50 border border-amber-600 text-amber-400 hover:bg-amber-500 hover:text-black px-2 py-1 text-[10px] uppercase font-bold cursor-pointer">⏳ บล็อกเวลา</button>
                         </div>
                     </td>
                 </tr>
@@ -887,9 +1005,9 @@ async function renderOrdersPage() {
 
             let actionHtml = '';
             if (order.status === 'AWAITING_SLIP') {
-                actionHtml = `<button onclick="openSlipUploadModal(${order.id})" class="bg-emerald-500 text-black px-3 py-1.5 text-[10px] font-bold uppercase cursor-pointer hover:bg-emerald-400">UPLOAD_SLIP</button>`;
+                actionHtml = `<button data-action="open-slip-upload" data-order-id="${order.id}" class="bg-emerald-500 text-black px-3 py-1.5 text-[10px] font-bold uppercase cursor-pointer hover:bg-emerald-400">UPLOAD_SLIP</button>`;
             } else if (order.status === 'APPROVED') {
-                actionHtml = `<button onclick="downloadOrderAssets(${order.id})" class="bg-blue-600 text-white px-3 py-1.5 text-[10px] font-bold uppercase cursor-pointer hover:bg-blue-500">DOWNLOAD</button>`;
+                actionHtml = `<button data-action="download-order-assets" data-order-id="${order.id}" class="bg-blue-600 text-white px-3 py-1.5 text-[10px] font-bold uppercase cursor-pointer hover:bg-blue-500">DOWNLOAD</button>`;
             } else {
                 actionHtml = `<span class="text-zinc-500 text-[10px]">--</span>`;
             }
@@ -1021,8 +1139,8 @@ async function renderAdminOrdersTable() {
             const slipStatus = order.slip ? `<span class="text-emerald-400 text-[9px] font-bold">✓ UPLOADED</span>` : '<span class="text-red-400 text-[9px]">✗ PENDING</span>';
 
             const actionButtons = order.status === 'AWAITING_SLIP' || order.status === 'SLIP_UPLOADED'
-                ? `<button onclick="approveOrder(${order.id})" class="bg-emerald-600 text-white px-2 py-1 text-[9px] font-bold cursor-pointer hover:bg-emerald-500">APPROVE</button>
-                   <button onclick="rejectOrder(${order.id})" class="bg-red-600 text-white px-2 py-1 text-[9px] font-bold cursor-pointer hover:bg-red-500 ml-1">REJECT</button>`
+                ? `<button data-action="approve-order" data-order-id="${order.id}" class="bg-emerald-600 text-white px-2 py-1 text-[9px] font-bold cursor-pointer hover:bg-emerald-500">APPROVE</button>
+                   <button data-action="reject-order" data-order-id="${order.id}" class="bg-red-600 text-white px-2 py-1 text-[9px] font-bold cursor-pointer hover:bg-red-500 ml-1">REJECT</button>`
                 : '<span class="text-zinc-500 text-[9px]">--</span>';
 
             tbody.innerHTML += `
@@ -1133,6 +1251,8 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
         initLanguage();
         updateAuthUI();
+
+        document.body.addEventListener('click', handleActionClick);
 
         // If user is logged in, show customer page; otherwise show login page
         if (loggedInUser) {
